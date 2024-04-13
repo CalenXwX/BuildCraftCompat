@@ -1,84 +1,78 @@
-/*
- * Copyright (c) 2020 SpaceToad and the BuildCraft team
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not
- * distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/
- */
-
 package buildcraft.compat;
+
+import buildcraft.api.core.BCLog;
+import buildcraft.compat.module.crafttweaker.CompatModuleCraftTweaker;
+import buildcraft.compat.module.ic2.CompatModuleIndustrialCraft2;
+import buildcraft.compat.module.theoneprobe.CompatModuleTheOneProbe;
+import buildcraft.core.BCCoreConfig;
+
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge_1_12_2.common.config.Property;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-
-import buildcraft.api.core.BCLog;
-
-import buildcraft.compat.module.crafttweaker.CompatModuleCraftTweaker;
-import buildcraft.compat.module.forestry.CompatModuleForestry;
-import buildcraft.compat.module.ic2.CompatModuleIndustrialCraft2;
-import buildcraft.compat.module.theoneprobe.CompatModuleTheOneProbe;
-import buildcraft.compat.network.CompatGui;
-import buildcraft.core.BCCoreConfig;
-
-//@formatter:off
-@Mod(
-        modid = BCCompat.MODID,
-        name = "BuildCraft Compat",
-        version = BCCompat.VERSION,
-        updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
-        acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
-        dependencies = BCCompat.DEPENDENCIES
-)
-//@formatter:on
+//@Mod(
+//        modid = "buildcraftcompat",
+//        name = "BuildCraft Compat",
+//        version = "7.99.24.8",
+//        updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
+//        acceptedMinecraftVersions = "[1.12.2]",
+//        dependencies = "required-after:forge@[14.23.0.2544,);required-after:buildcraftcore@[7.99.24.8,);after:buildcrafttransport;after:buildcraftbuilders;after:buildcraftsilicon;after:theoneprobe;after:forestry;after:crafttweaker;after:ic2"
+//)
+@Mod(BCCompat.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BCCompat {
-
     static final String DEPENDENCIES = "required-after:forge@(gradle_replace_forgeversion,)"//
-        + ";required-after:buildcraftcore@[$bc_version,)"//
-        + ";after:buildcrafttransport"//
-        + ";after:buildcraftbuilders"//
-        + ";after:buildcraftsilicon"//
-        + ";after:theoneprobe"//
-        + ";after:forestry"//
-        + ";after:crafttweaker"//
-        + ";after:ic2"//
-    ;
-
-    public static final String MODID = "buildcraftcompat";
+            + ";required-after:buildcraftcore@[$bc_version,)"//
+            + ";after:buildcrafttransport"//
+            + ";after:buildcraftbuilders"//
+            + ";after:buildcraftsilicon"//
+            + ";after:theoneprobe"//
+            + ";after:forestry"//
+            + ";after:crafttweaker"//
+            + ";after:ic2"//
+            ;
+    public static final String MOD_ID = "buildcraftcompat";
     public static final String VERSION = "$version";
     public static final String GIT_BRANCH = "${git_branch}";
     public static final String GIT_COMMIT_HASH = "${git_commit_hash}";
     public static final String GIT_COMMIT_MSG = "${git_commit_msg}";
     public static final String GIT_COMMIT_AUTHOR = "${git_commit_author}";
 
-    @Mod.Instance(MODID)
+    //    @Instance(MOD_ID)
     public static BCCompat instance;
-
     private static final Map<String, CompatModuleBase> modules = new HashMap<>();
 
-    private static void offerAndPreInitModule(final CompatModuleBase module) {
+    public BCCompat() {
+        instance = this;
+    }
+
+
+    private static void offerAndPreInitModule(CompatModuleBase module) {
         String cModId = module.compatModId();
         if (module.canLoad()) {
-            Property prop = BCCoreConfig.config.get("modules", cModId, true);
+            Property prop = BCCoreConfig.getConfig(true).get("modules", cModId, true);
             if (prop.getBoolean(true)) {
                 modules.put(cModId, module);
                 BCLog.logger.info("[compat]   + " + cModId);
                 module.preInit();
-            } else {
+            }
+            else {
                 BCLog.logger.info("[compat]   x " + cModId + " (It has been disabled in the config)");
             }
-        } else {
+        }
+        else {
             BCLog.logger.info("[compat]   x " + cModId + " (It cannot load)");
         }
     }
 
-    @Mod.EventHandler
-    public static void preInit(final FMLPreInitializationEvent evt) {
-
+    @SubscribeEvent
+    public static void preInit(FMLConstructModEvent evt) {
         BCLog.logger.info("");
         BCLog.logger.info("Starting BuildCraftCompat " + VERSION);
         BCLog.logger.info("Copyright (c) the BuildCraft team, 2011-2017");
@@ -94,54 +88,27 @@ public class BCCompat {
 
         BCLog.logger.info("[compat] Module list:");
         // List of all modules
-        offerAndPreInitModule(new CompatModuleForestry());
+        // TODO Calen Forestry?
+//        offerAndPreInitModule(new CompatModuleForestry());
         offerAndPreInitModule(new CompatModuleTheOneProbe());
         offerAndPreInitModule(new CompatModuleCraftTweaker());
         offerAndPreInitModule(new CompatModuleIndustrialCraft2());
         // End of module list
     }
 
-    @Mod.EventHandler
-    public static void init(final FMLInitializationEvent evt) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(instance, CompatGui.guiHandlerProxy);
-
-        // compatChannelHandler = new ChannelHandler();
-        // MinecraftForge.EVENT_BUS.register(this);
-
-        // compatChannelHandler.registerPacketType(PacketGenomeFilterChange.class);
-        // compatChannelHandler.registerPacketType(PacketTypeFilterChange.class);
-        // compatChannelHandler.registerPacketType(PacketRequestFilterSet.class);
-
-        for (final CompatModuleBase m : modules.values()) {
+    @SubscribeEvent
+    public static void init(FMLCommonSetupEvent evt) {
+        // TODO Calen compat GUI???
+//        NetworkRegistry.INSTANCE.registerGuiHandler(instance, CompatGui.guiHandlerProxy);
+        for (CompatModuleBase m : modules.values()) {
             m.init();
         }
     }
 
-    @Mod.EventHandler
-    public static void postInit(final FMLPostInitializationEvent evt) {
-        for (final CompatModuleBase m : modules.values()) {
+    @SubscribeEvent
+    public static void postInit(FMLLoadCompleteEvent evt) {
+        for (CompatModuleBase m : modules.values()) {
             m.postInit();
         }
     }
-
-    // @Mod.EventHandler
-    // public void missingMapping(FMLMissingMappingsEvent event) {
-    // CompatModuleForestry.missingMapping(event);
-    // }
-
-    // @SubscribeEvent
-    // @SideOnly(Side.CLIENT)
-    // public void handleTextureRemap(TextureStitchEvent.Pre event) {
-    // if (event.map.getTextureType() == 1) {
-    // TextureManager.getInstance().initIcons(event.map);
-    // }
-    // }
-
-    // public static boolean isLoaded(String module) {
-    // return moduleNames.contains(module);
-    // }
-
-    // public static boolean hasModule(final String module) {
-    // return BuildCraftCompat.moduleNames.contains(module);
-    // }
 }
