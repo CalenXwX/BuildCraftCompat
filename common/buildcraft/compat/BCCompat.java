@@ -56,7 +56,7 @@ public class BCCompat {
     private static void offerAndPreInitModule(CompatModuleBase module) {
         String cModId = module.compatModId();
         if (module.canLoad()) {
-            Property prop = BCCoreConfig.getConfig(true).get("modules", cModId, true);
+            Property prop = BCCoreConfig.getConfigAndEnsureCreated(true).get("modules", cModId, true);
             if (prop.getBoolean(true)) {
                 modules.put(cModId, module);
                 BCLog.logger.info("[compat]   + " + cModId);
