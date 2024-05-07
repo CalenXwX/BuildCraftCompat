@@ -31,15 +31,15 @@ public enum CombustionEngine implements IRecipeManager<IFuel>, IRecipeHandler<IF
 
     private static final double MAX_POWER = 100000.0;
 
-    //    @ZenMethod
+    // @ZenMethod
     @ZenCodeType.Method
     public void addCleanFuel(String name, IFluidStack liquid, double powerPerTick, int timePerBucket) {
         addCleanFuel0("custom/" + name, liquid, powerPerTick, timePerBucket);
     }
 
-    //    @ZenMethod
-//    @ZenCodeType.Method
-//    public static void addCleanFuel(ILiquidStack liquid, double powerPerTick, int timePerBucket)
+    // @ZenMethod
+    // @ZenCodeType.Method
+    // public static void addCleanFuel(ILiquidStack liquid, double powerPerTick, int timePerBucket)
     private void addCleanFuel0(String name, IFluidStack liquid, double powerPerTick, int timePerBucket) {
 //        FluidStack fluid = CraftTweakerMC.getLiquidStack(liquid);
         FluidStack fluid = liquid.getImmutableInternal();
@@ -65,15 +65,15 @@ public enum CombustionEngine implements IRecipeManager<IFuel>, IRecipeHandler<IF
         }
     }
 
-    //    @ZenMethod
+    // @ZenMethod
     @ZenCodeType.Method
     public void addDirtyFuel(String name, IFluidStack lFuel, double powerPerTick, int timePerBucket, IFluidStack lResidue) {
         addDirtyFuel0("custom/" + name, lFuel, powerPerTick, timePerBucket, lResidue);
     }
 
-    //    @ZenMethod
-//    @ZenCodeType.Method
-//    public static void addDirtyFuel(ILiquidStack lFuel, double powerPerTick, int timePerBucket, ILiquidStack lResidue)
+    // @ZenMethod
+    // @ZenCodeType.Method
+    // public static void addDirtyFuel(ILiquidStack lFuel, double powerPerTick, int timePerBucket, ILiquidStack lResidue)
     private void addDirtyFuel0(String name, IFluidStack lFuel, double powerPerTick, int timePerBucket, IFluidStack lResidue) {
 //        FluidStack fuel = CraftTweakerMC.getLiquidStack(lFuel);
         FluidStack fuel = lFuel.getImmutableInternal();
@@ -134,14 +134,14 @@ public enum CombustionEngine implements IRecipeManager<IFuel>, IRecipeHandler<IF
         }
     }
 
-    //    static final class AddDirtyFuel implements IAction
+    // static final class AddDirtyFuel implements IAction
     static final class AddDirtyFuel extends ActionAddRecipe<IFuel> {
 //        private final FluidStack fuel;
 //        private final FluidStack residue;
 //        private final long powerPerTick;
 //        private final int totalBurningTime;
 
-        //        public AddDirtyFuel(FluidStack fuel, long powerPerCycle, int totalBurningTime, FluidStack residue)
+        // public AddDirtyFuel(FluidStack fuel, long powerPerCycle, int totalBurningTime, FluidStack residue)
         private AddDirtyFuel(IRecipeManager<IFuel> manager, IFuel recipe) {
             super(manager, recipe);
 //            this.fuel = fuel;
@@ -156,8 +156,7 @@ public enum CombustionEngine implements IRecipeManager<IFuel>, IRecipeHandler<IF
             return new AddDirtyFuel(manager, new FuelRegistry.DirtyFuel(_name, fuel, powerPerCycle, totalBurningTime, residue));
         }
 
-//        public void apply()
-//        {
+//        public void apply() {
 //            BuildcraftFuelRegistry.fuel.addDirtyFuel(this.fuel, this.powerPerTick, this.totalBurningTime, this.residue);
 //        }
 
@@ -167,13 +166,13 @@ public enum CombustionEngine implements IRecipeManager<IFuel>, IRecipeHandler<IF
         }
     }
 
-    //    static final class AddCleanFuel implements IAction
+    // static final class AddCleanFuel implements IAction
     static final class AddCleanFuel extends ActionAddRecipe<IFuel> {
 //        private final FluidStack fluid;
 //        private final long powerPerTick;
 //        private final int totalBurningTime;
 
-        //        public AddCleanFuel(FluidStack fluid, long powerPerCycle, int totalBurningTime)
+        // public AddCleanFuel(FluidStack fluid, long powerPerCycle, int totalBurningTime)
         public AddCleanFuel(IRecipeManager<IFuel> manager, IFuel recipe) {
             super(manager, recipe);
 //            this.fluid = fluid;
@@ -187,8 +186,7 @@ public enum CombustionEngine implements IRecipeManager<IFuel>, IRecipeHandler<IF
             return new AddCleanFuel(manager, new FuelRegistry.Fuel(_name, fluid, powerPerCycle, totalBurningTime));
         }
 
-//        public void apply()
-//        {
+//        public void apply() {
 //            BuildcraftFuelRegistry.fuel.addFuel(this.fluid, this.powerPerTick, this.totalBurningTime);
 //        }
 

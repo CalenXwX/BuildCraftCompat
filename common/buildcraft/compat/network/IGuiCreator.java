@@ -1,11 +1,12 @@
 package buildcraft.compat.network;
 
-import javax.annotation.Nullable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
 
 public interface IGuiCreator {
     Enum<?> getGuiType();

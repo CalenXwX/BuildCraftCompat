@@ -1,13 +1,6 @@
 package buildcraft.compat.module.jei.energy.combustionengine;
 
 import buildcraft.api.BCModules;
-
-import java.awt.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.fuels.IFuelManager;
 import buildcraft.api.mj.MjAPI;
@@ -37,9 +30,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.awt.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 //public class CategoryCombustionEngine extends BlankRecipeCategory<WrapperCombustionEngine>
-public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
-{
+public class CategoryCombustionEngine implements IRecipeCategory<IFuel> {
     // Calen
     public static final RecipeType<IFuel> RECIPE_TYPE =
             RecipeType.create(BCModules.ENERGY.getModId(), "engine_combustion", IFuel.class);
@@ -50,19 +48,11 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
 
     private final IDrawable icon;
 
-    //    private final IDrawableAnimated flame;
-//    private IDrawableAnimated flame;
-
     @OnlyIn(Dist.CLIENT)
     private Font font = Minecraft.getInstance().font;
-    //    private final IGuiHelper guiHelper;
-//    private final IDrawableStatic flameDrawable;
     private final Map<Integer, IDrawableAnimated> burnTimeDrabableMap = new HashMap<>();
 
-    //    public CategoryCombustionEngine(IGuiHelper guiHelper)
-//    public CategoryCombustionEngine(IGuiHelper guiHelper,IFuel fuel)
-    public CategoryCombustionEngine(IGuiHelper guiHelper, Collection<IFuel> fuels)
-    {
+    public CategoryCombustionEngine(IGuiHelper guiHelper, Collection<IFuel> fuels) {
         // Calen: 80->100
 //        this.background = guiHelper.createDrawable(new ResourceLocation("minecraft", "textures/gui/container/furnace.png"), 55, 38, 18, 32, 0, 0, 0, 80);
 //        this.background = guiHelper.drawableBuilder(FURNACE, 55, 38, 18, 32).addPadding(0, 0, 0, 80).build();
@@ -75,48 +65,40 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
 //        ResourceLocation furnaceBackgroundLocation = new ResourceLocation("minecraft", "textures/gui/container/furnace.png");
         IDrawableStatic flameDrawable = guiHelper.createDrawable(FURNACE, 176, 0, 14, 14);
 //        this.flame = guiHelper.createAnimatedDrawable(flameDrawable, fuel.getTotalBurningTime() / 10, IDrawableAnimated.StartDirection.TOP, true);
-        for (IFuel fuel : fuels)
-        {
-            if (!burnTimeDrabableMap.containsKey(fuel.getTotalBurningTime()))
-            {
+        for (IFuel fuel : fuels) {
+            if (!burnTimeDrabableMap.containsKey(fuel.getTotalBurningTime())) {
                 burnTimeDrabableMap.put(fuel.getTotalBurningTime(), guiHelper.createAnimatedDrawable(flameDrawable, fuel.getTotalBurningTime() / 10, IDrawableAnimated.StartDirection.TOP, true));
             }
         }
     }
 
     @Override
-    public ResourceLocation getUid()
-    {
+    public ResourceLocation getUid() {
         return UID;
     }
 
     @Override
-    public Class<? extends IFuel> getRecipeClass()
-    {
+    public Class<? extends IFuel> getRecipeClass() {
         return IFuel.class;
     }
 
     @Override
-    public Component getTitle()
-    {
+    public Component getTitle() {
 //        return new TextComponent("Combustion Engine Fuels");
         return new TranslatableComponent("buildcraft.jei.title.combustion_engine_fuels");
     }
 
-    public String getModName()
-    {
+    public String getModName() {
         return BCModules.ENERGY.name();
     }
 
     @Override
-    public IDrawable getBackground()
-    {
+    public IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon()
-    {
+    public IDrawable getIcon() {
         return this.icon;
     }
 
@@ -124,12 +106,7 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
     private int lastBurnTime = -1;
 
     @Override
-    public void draw(IFuel fuel, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
-    {
-//        if (fuel.getTotalBurningTime() != lastBurnTime)
-//        {
-//            this.flame = guiHelper.createAnimatedDrawable(flameDrawable, fuel.getTotalBurningTime() / 10, IDrawableAnimated.StartDirection.TOP, true);
-//        }
+    public void draw(IFuel fuel, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
 //        this.flame.draw(stack, 2, 0);
         this.burnTimeDrabableMap.get(fuel.getTotalBurningTime()).draw(stack, 2, 0);
 //        GlStateManager.func_179094_E();
@@ -153,9 +130,8 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
     }
 
     @Override
-    //    public void setRecipe(IRecipeLayout recipeLayout, WrapperCombustionEngine recipeWrapper, IIngredients ingredients)
-    public void setRecipe(IRecipeLayoutBuilder builder, IFuel fuel, IFocusGroup focuses)
-    {
+    // public void setRecipe(IRecipeLayout recipeLayout, WrapperCombustionEngine recipeWrapper, IIngredients ingredients)
+    public void setRecipe(IRecipeLayoutBuilder builder, IFuel fuel, IFocusGroup focuses) {
 //        IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 //        guiFluidStacks.init(0, true, 1, 15, 16, 16, 1000, false, (IDrawable) null);
 //        guiFluidStacks.set(0, (List) ingredients.getInputs(FluidStack.class).get(0));
@@ -163,8 +139,7 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
                 .addSlot(RecipeIngredientRole.INPUT, 1, 15)
                 .setFluidRenderer(1000, false, 16, 16)
                 .addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(fuel.getFluid(), 1000));
-        if (fuel instanceof IFuelManager.IDirtyFuel dirtyFuel)
-        {
+        if (fuel instanceof IFuelManager.IDirtyFuel dirtyFuel) {
             // Calen: move right 20 to not covered the text
 //            guiFluidStacks.init(1, false, 95, 15, 16, 16, 1000, false, (IDrawable) null);
 //            guiFluidStacks.set(1, (List) ingredients.getOutputs(FluidStack.class).get(0));
@@ -177,14 +152,12 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
     }
 
     @Override
-    public List<Component> getTooltipStrings(IFuel recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
-    {
+    public List<Component> getTooltipStrings(IFuel recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         return Lists.newArrayList();
     }
 
     @Override
-    public boolean handleInput(IFuel recipe, double mouseX, double mouseY, InputConstants.Key input)
-    {
+    public boolean handleInput(IFuel recipe, double mouseX, double mouseY, InputConstants.Key input) {
         return false;
     }
 }

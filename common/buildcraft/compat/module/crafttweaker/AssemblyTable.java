@@ -2,9 +2,11 @@ package buildcraft.compat.module.crafttweaker;
 
 import buildcraft.api.mj.MjAPI;
 import buildcraft.api.recipes.IAssemblyRecipe;
+import buildcraft.api.recipes.IngredientStack;
 import buildcraft.lib.recipe.assembly.AssemblyRecipe;
 import buildcraft.lib.recipe.assembly.AssemblyRecipeBasic;
-import buildcraft.api.recipes.IngredientStack;
+import buildcraft.lib.recipe.assembly.IFacadeAssemblyRecipes;
+import buildcraft.silicon.recipe.FacadeAssemblyRecipes;
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
 import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByName;
@@ -24,6 +26,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import org.openzen.zencode.java.ZenCodeGlobals;
 import org.openzen.zencode.java.ZenCodeType;
 
+import java.util.stream.Collectors;
+
 //@ZenClass("mods.buildcraft.AssemblyTable")
 //@ModOnly("buildcraftsilicon")
 @ZenRegister
@@ -36,29 +40,42 @@ public enum AssemblyTable implements IRecipeManager<IAssemblyRecipe>, IRecipeHan
 
     private static int ids;
 
-    //    @ZenMethod
-    @ZenCodeType.Method
-//    public static void addRecipe(IItemStack output, int power, IIngredient[] ingredients)
-    public void addRecipe(IItemStack output, int power, IIngredient[] ingredients) {
-        addRecipe0("auto_" + ids++, output, power, ingredients);
-    }
+//    // @ZenMethod
+//    @ZenCodeType.Method
+//    // public static void addRecipe(IItemStack output, int power, IIngredient[] ingredients)
+//    public void addRecipe(IItemStack output, int power, IIngredient[] ingredients) {
+//        addRecipe0("auto_" + ids++, output, power, ingredients);
+//    }
 
-    //    @ZenMethod
+    // @ZenMethod
     @ZenCodeType.Method
 //    public static void addRecipe(String name, IItemStack output, int power, IIngredient[] ingredients)
     public void addRecipe(String name, IItemStack output, int power, IIngredient[] ingredients) {
         addRecipe0("custom/" + name, output, power, ingredients);
     }
 
-    //    private static void addRecipe0(String name, IItemStack output, int power, IIngredient[] ingredients)
+    // @ZenMethod
+    @ZenCodeType.Method
+//    public static void addRecipe(String name, IItemStack output, int power, IIngredient[] ingredients)
+    public void enableFacadeAssembly() {
+        enableFacadeAssembly0();
+    }
+
+    // private static void addRecipe0(String name, IItemStack output, int power, IIngredient[] ingredients)
     private void addRecipe0(String name, IItemStack output, int power, IIngredient[] ingredients) {
 //        CraftTweakerAPI.apply(new AddRecipeAction(name, output, power, ingredients));
         CraftTweakerAPI.apply(AddRecipeAction.create(this, name, output, power, ingredients));
     }
 
-    //    @ZenMethod
+    // private static void addRecipe0(String name, IItemStack output, int power, IIngredient[] ingredients)
+    private void enableFacadeAssembly0() {
+//        CraftTweakerAPI.apply(new AddRecipeAction(name, output, power, ingredients));
+        CraftTweakerAPI.apply(AddRecipeAction.createFacadeRecipe(this));
+    }
+
+    // @ZenMethod
     @ZenCodeType.Method
-//    public static void removeByName(String name)
+    // public static void removeByName(String name)
     public void removeByName(String name) {
 //        CraftTweakerAPI.apply(new RemoveRecipeByNameAction(new ResourceLocation(name)));
         CraftTweakerAPI.apply(new RemoveRecipeByNameAction(this, new ResourceLocation(name)));
@@ -71,12 +88,22 @@ public enum AssemblyTable implements IRecipeManager<IAssemblyRecipe>, IRecipeHan
 
     @Override
     public String dumpToCommandString(final IRecipeManager manager, IAssemblyRecipe recipe) {
-        return String.format(
-                "assemblyTable.addRecipe(%s, %s, %s);",
-                StringUtil.quoteAndEscape(recipe.getId()),
-                ItemStackUtil.getCommandString(recipe.getOutputPreviews().stream().toList().get(0)),
-                new IIngredientList(recipe.getRequiredIngredientStacks().stream().map(i -> IIngredient.fromIngredient(i.ingredient)).toArray(IIngredient[]::new)).getCommandString()
-        );
+        if (recipe instanceof IFacadeAssemblyRecipes) {
+            return String.format(
+                    "assemblyTable.enableFacadeAssembly();"
+            );
+        } else {
+            return String.format(
+                    "assemblyTable.addRecipe(%s, %s, %s, %s);",
+                    StringUtil.quoteAndEscape(recipe.getId()),
+                    ItemStackUtil.getCommandString(recipe.getOutputPreviews().stream().toList().get(0)),
+                    recipe.getRequiredMicroJoules(),
+                    recipe.getRequiredIngredientStacks().stream()
+                            .map(i -> IIngredient.fromIngredient(i.ingredient))
+                            .map(IIngredient::getCommandString)
+                            .collect(Collectors.joining(", ", "[", "]"))
+            );
+        }
     }
 
     // private static class RemoveRecipeByNameAction implements IAction
@@ -112,8 +139,7 @@ public enum AssemblyTable implements IRecipeManager<IAssemblyRecipe>, IRecipeHan
 //            this.output = CraftTweakerMC.getItemStack(output);
 //            ImmutableSet.Builder<IngredientStack> stacks = ImmutableSet.builder();
 //
-//            for (int i = 0; i < ingredients.length; ++i)
-//            {
+//            for (int i = 0; i < ingredients.length; ++i) {
 //                IIngredient ctIng = ingredients[i];
 //                Ingredient ingredient = CraftTweakerMC.getIngredient(ctIng);
 //                stacks.add(new IngredientStack(ingredient, Math.max(1, ctIng.getAmount())));
@@ -142,6 +168,10 @@ public enum AssemblyTable implements IRecipeManager<IAssemblyRecipe>, IRecipeHan
             ResourceLocation _name = new ResourceLocation("crafttweaker", name);
             AssemblyRecipeBasic recipe = new AssemblyRecipeBasic(_name, requiredMj, requiredStacks, _output);
             return new AddRecipeAction(manager, recipe);
+        }
+
+        public static AddRecipeAction createFacadeRecipe(IRecipeManager<IAssemblyRecipe> manager) {
+            return new AddRecipeAction(manager, FacadeAssemblyRecipes.INSTANCE);
         }
 
 //        public void apply() {

@@ -1,9 +1,6 @@
 package buildcraft.compat.module.jei.factory;
 
 import buildcraft.api.BCModules;
-
-import java.util.List;
-
 import buildcraft.api.recipes.IRefineryRecipeManager;
 import buildcraft.factory.BCFactoryBlocks;
 import buildcraft.lib.misc.StackUtil;
@@ -27,9 +24,10 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 //public class CategoryCoolable extends BlankRecipeCategory<WrapperCoolable>
-public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.ICoolableRecipe>
-{
+public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.ICoolableRecipe> {
     // Calen
     public static final RecipeType<IRefineryRecipeManager.ICoolableRecipe> RECIPE_TYPE =
             RecipeType.create(BCModules.FACTORY.getModId(), "category_coolable", IRefineryRecipeManager.ICoolableRecipe.class);
@@ -43,8 +41,7 @@ public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.
     private final IDrawableAnimated animatedCooling;
     private final IDrawableAnimated animatedHeating;
 
-    public CategoryCoolable(IGuiHelper guiHelper)
-    {
+    public CategoryCoolable(IGuiHelper guiHelper) {
         // Calen: top padding add 2 to be same height as heatable
 //        this.background = helper.createDrawable(heatExchangerBackground, 61, 38, 54, 17, 0, 0, 18, 80);
 //        this.background = guiHelper.drawableBuilder(heatExchangerBackground, 61, 38, 54, 17).addPadding(0, 0, 18, 80).build();
@@ -59,49 +56,41 @@ public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.
         this.animatedHeating = guiHelper.createAnimatedDrawable(overComplete, 40, IDrawableAnimated.StartDirection.RIGHT, false);
     }
 
-    public ResourceLocation getUid()
-    {
+    public ResourceLocation getUid() {
         return UID;
     }
 
     @Override
-    public Class<? extends IRefineryRecipeManager.ICoolableRecipe> getRecipeClass()
-    {
+    public Class<? extends IRefineryRecipeManager.ICoolableRecipe> getRecipeClass() {
         return IRefineryRecipeManager.ICoolableRecipe.class;
     }
 
     @Override
-    public RecipeType<IRefineryRecipeManager.ICoolableRecipe> getRecipeType()
-    {
+    public RecipeType<IRefineryRecipeManager.ICoolableRecipe> getRecipeType() {
         return RECIPE_TYPE;
     }
 
-    public Component getTitle()
-    {
+    public Component getTitle() {
 //        return new TextComponent("Coolable Fluids");
         return new TranslatableComponent("buildcraft.jei.title.coolable_fluids");
     }
 
-    public String getModName()
-    {
+    public String getModName() {
         return BCModules.FACTORY.name();
     }
 
-    public IDrawable getBackground()
-    {
+    public IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon()
-    {
+    public IDrawable getIcon() {
         return this.icon;
     }
 
     @Override
 //    public void drawExtras(Minecraft minecraft)
-    public void draw(IRefineryRecipeManager.ICoolableRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
-    {
+    public void draw(IRefineryRecipeManager.ICoolableRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         // Calen: y+1 to be at the same height as tubes of background
         // in 1.18.2 additionally +1
 //        this.slot.draw(stack, 0, 0);
@@ -118,8 +107,7 @@ public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.
 
     @Override
 //    public void setRecipe(IRecipeLayout recipeLayout, WrapperCoolable recipeWrapper, IIngredients ingredients)
-    public void setRecipe(IRecipeLayoutBuilder builder, IRefineryRecipeManager.ICoolableRecipe recipe, IFocusGroup focuses)
-    {
+    public void setRecipe(IRecipeLayoutBuilder builder, IRefineryRecipeManager.ICoolableRecipe recipe, IFocusGroup focuses) {
 //        IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 //        guiFluidStacks.init(0, true, 1, 1, 16, 16, 10, false, (IDrawable) null);
 //        guiFluidStacks.set(0, (List) ingredients.getInputs(FluidStack.class).get(0));
@@ -138,14 +126,12 @@ public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.
     }
 
     @Override
-    public List<Component> getTooltipStrings(IRefineryRecipeManager.ICoolableRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
-    {
+    public List<Component> getTooltipStrings(IRefineryRecipeManager.ICoolableRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         return Lists.newArrayList();
     }
 
     @Override
-    public boolean handleInput(IRefineryRecipeManager.ICoolableRecipe recipe, double mouseX, double mouseY, InputConstants.Key input)
-    {
+    public boolean handleInput(IRefineryRecipeManager.ICoolableRecipe recipe, double mouseX, double mouseY, InputConstants.Key input) {
         return false;
     }
 }

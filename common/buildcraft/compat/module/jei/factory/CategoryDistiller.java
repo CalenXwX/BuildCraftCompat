@@ -1,10 +1,6 @@
 package buildcraft.compat.module.jei.factory;
 
 import buildcraft.api.BCModules;
-
-import java.awt.*;
-import java.util.List;
-
 import buildcraft.api.mj.MjAPI;
 import buildcraft.api.recipes.IRefineryRecipeManager;
 import buildcraft.factory.BCFactoryBlocks;
@@ -32,9 +28,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.awt.*;
+import java.util.List;
+
 //public class CategoryDistiller extends BlankRecipeCategory<WrapperDistiller>
-public class CategoryDistiller implements IRecipeCategory<IRefineryRecipeManager.IDistillationRecipe>
-{
+public class CategoryDistiller implements IRecipeCategory<IRefineryRecipeManager.IDistillationRecipe> {
     // Calen
     public static final RecipeType<IRefineryRecipeManager.IDistillationRecipe> RECIPE_TYPE =
             RecipeType.create(BCModules.FACTORY.getModId(), "category_distiller", IRefineryRecipeManager.IDistillationRecipe.class);
@@ -51,8 +49,7 @@ public class CategoryDistiller implements IRecipeCategory<IRefineryRecipeManager
     @OnlyIn(Dist.CLIENT)
     private Font font = Minecraft.getInstance().font;
 
-    public CategoryDistiller(IGuiHelper guiHelper)
-    {
+    public CategoryDistiller(IGuiHelper guiHelper) {
 //        this.fakeBackground = guiHelper.createBlankDrawable(76, 65);
         this.fakeBackground = guiHelper.createBlankDrawable(90, 65);
         this.background = guiHelper.createDrawable(distillerBackground, 61, 12, 36, 57);
@@ -65,51 +62,43 @@ public class CategoryDistiller implements IRecipeCategory<IRefineryRecipeManager
     }
 
     @Override
-    public ResourceLocation getUid()
-    {
+    public ResourceLocation getUid() {
         return UID;
     }
 
     @Override
-    public Class<? extends IRefineryRecipeManager.IDistillationRecipe> getRecipeClass()
-    {
+    public Class<? extends IRefineryRecipeManager.IDistillationRecipe> getRecipeClass() {
         return IRefineryRecipeManager.IDistillationRecipe.class;
     }
 
     @Override
-    public RecipeType<IRefineryRecipeManager.IDistillationRecipe> getRecipeType()
-    {
+    public RecipeType<IRefineryRecipeManager.IDistillationRecipe> getRecipeType() {
         return RECIPE_TYPE;
     }
 
     @Override
-    public Component getTitle()
-    {
+    public Component getTitle() {
 //        return new TextComponent("Distillable Fluids");
         return new TranslatableComponent("buildcraft.jei.title.distillable_fluids");
     }
 
-    public String getModName()
-    {
+    public String getModName() {
         return BCModules.FACTORY.name();
     }
 
     @Override
-    public IDrawable getBackground()
-    {
+    public IDrawable getBackground() {
         return this.fakeBackground;
     }
 
     @Override
-    public IDrawable getIcon()
-    {
+    public IDrawable getIcon() {
         return this.icon;
     }
 
     @Override
 //    public void drawExtras(Minecraft minecraft)
-    public void draw(IRefineryRecipeManager.IDistillationRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
-    {
+    public void draw(IRefineryRecipeManager.IDistillationRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         this.background.draw(stack, 20, 4);
         this.slot.draw(stack, 0, 25);
         this.slot.draw(stack, 56, 0);
@@ -121,8 +110,7 @@ public class CategoryDistiller implements IRecipeCategory<IRefineryRecipeManager
 
     @Override
 //    public void setRecipe(IRecipeLayout recipeLayout, WrapperDistiller recipeWrapper, IIngredients ingredients)
-    public void setRecipe(IRecipeLayoutBuilder builder, IRefineryRecipeManager.IDistillationRecipe recipe, IFocusGroup focuses)
-    {
+    public void setRecipe(IRecipeLayoutBuilder builder, IRefineryRecipeManager.IDistillationRecipe recipe, IFocusGroup focuses) {
 //        IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 //        guiFluidStacks.init(0, true, 1, 26, 16, 16, 10, false, (IDrawable) null);
 //        guiFluidStacks.set(0, (List) ingredients.getInputs(FluidStack.class).get(0));
@@ -145,14 +133,12 @@ public class CategoryDistiller implements IRecipeCategory<IRefineryRecipeManager
     }
 
     @Override
-    public List<Component> getTooltipStrings(IRefineryRecipeManager.IDistillationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
-    {
+    public List<Component> getTooltipStrings(IRefineryRecipeManager.IDistillationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         return Lists.newArrayList();
     }
 
     @Override
-    public boolean handleInput(IRefineryRecipeManager.IDistillationRecipe recipe, double mouseX, double mouseY, InputConstants.Key input)
-    {
+    public boolean handleInput(IRefineryRecipeManager.IDistillationRecipe recipe, double mouseX, double mouseY, InputConstants.Key input) {
         return false;
     }
 }

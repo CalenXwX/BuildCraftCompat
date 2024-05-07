@@ -15,8 +15,6 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = BCCompat.MOD_ID)
 public class CompatUtils {
-    //    public static final Capability<IGuiCreator> CAP_GUI_CREATOR = CapabilitiesHelper.registerCapability(IGuiCreator.class);
-//    public static final Capability<IGuiCreator> CAP_GUI_CREATOR = CapabilitiesHelper.registerCapability(IGuiCreator.class);
     public static final Capability<IGuiCreator> CAP_GUI_CREATOR = CapabilityManager.get(new CapabilityToken<>() {
     });
 

@@ -1,10 +1,8 @@
 package buildcraft.compat.module.crafttweaker;
 
 import buildcraft.compat.CompatModuleBase;
-import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 
-public class CompatModuleCraftTweaker extends CompatModuleBase
-{
+public class CompatModuleCraftTweaker extends CompatModuleBase {
     // TODO Calen /ct recipes manager <recipetype:buildcraftsilicon:assembly> -> error
     public CompatModuleCraftTweaker() {
     }

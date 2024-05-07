@@ -1,6 +1,5 @@
 package buildcraft.compat;
 
-
 import net.minecraftforge.fml.ModList;
 
 public abstract class CompatModuleBase {

@@ -1,10 +1,6 @@
 package buildcraft.compat.module.jei.silicon;
 
 import buildcraft.api.BCModules;
-
-import java.awt.*;
-import java.util.List;
-
 import buildcraft.api.mj.MjAPI;
 import buildcraft.api.recipes.IntegrationRecipe;
 import buildcraft.silicon.BCSiliconBlocks;
@@ -33,13 +29,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.awt.*;
+import java.util.List;
+
 //public class CategoryIntegrationTable implements IRecipeCategory<WrapperIntegrationTable>
-public class CategoryIntegrationTable implements IRecipeCategory<IntegrationRecipe>
-{
+public class CategoryIntegrationTable implements IRecipeCategory<IntegrationRecipe> {
     // Calen
     public static final RecipeType<IntegrationRecipe> RECIPE_TYPE =
             RecipeType.create(BCModules.SILICON.getModId(), "integration", IntegrationRecipe.class);
-    //    public static final ResourceLocation UID = new ResourceLocation("buildcraft-compat:silicon.integration");
+    // public static final ResourceLocation UID = new ResourceLocation("buildcraft-compat:silicon.integration");
     public static final ResourceLocation UID = new ResourceLocation(BCModules.SILICON.getModId(), "integration");
     protected final ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
     private final IDrawable background;
@@ -54,8 +52,7 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
     @OnlyIn(Dist.CLIENT)
     private Font font = Minecraft.getInstance().font;
 
-    public CategoryIntegrationTable(IGuiHelper guiHelper, IntegrationRecipe recipe)
-    {
+    public CategoryIntegrationTable(IGuiHelper guiHelper, IntegrationRecipe recipe) {
 //        this.background = guiHelper.createDrawable(this.backgroundLocation, 17, 22, 153, 71, 0, 0, 9, 0);
         this.background = guiHelper.drawableBuilder(this.backgroundLocation, 17, 22, 153, 71).addPadding(0, 0, 9, 0).build();
 
@@ -72,63 +69,52 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
         this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, 720, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
-    public ResourceLocation getUid()
-    {
+    public ResourceLocation getUid() {
         return UID;
     }
 
     @Override
-    public Class<? extends IntegrationRecipe> getRecipeClass()
-    {
+    public Class<? extends IntegrationRecipe> getRecipeClass() {
         return IntegrationRecipe.class;
     }
 
-    public Component getTitle()
-    {
+    public Component getTitle() {
 //        return new TextComponent("Integration Table");
         return new TranslatableComponent("tile.integrationTableBlock.name");
     }
 
-    public String getModName()
-    {
+    public String getModName() {
         return BCModules.SILICON.name();
     }
 
-    public IDrawable getBackground()
-    {
+    public IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon()
-    {
+    public IDrawable getIcon() {
         return this.icon;
     }
 
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void draw(IntegrationRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
-    {
+    public void draw(IntegrationRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         this.progressBar.draw(stack, 156, 1);
         this.font.draw(stack, MjAPI.formatMj(0L) + " MJ", 80, 52, Color.gray.getRGB());
 
     }
 
-    //    public void setRecipe(IRecipeLayout recipeLayout, WrapperIntegrationTable recipeWrapper, IIngredients ingredients)
-    public void setRecipe(IRecipeLayoutBuilder builder, IntegrationRecipe recipe, IFocusGroup focuses)
-    {
+    // public void setRecipe(IRecipeLayout recipeLayout, WrapperIntegrationTable recipeWrapper, IIngredients ingredients)
+    public void setRecipe(IRecipeLayoutBuilder builder, IntegrationRecipe recipe, IFocusGroup focuses) {
 //        IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 //        List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
 //        int inventoryIndex = 0;
 
-        for (int y = 0; y < 3; ++y)
-        {
-            for (int x = 0; x < 3; ++x)
-            {
+        for (int y = 0; y < 3; ++y) {
+            for (int x = 0; x < 3; ++x) {
                 int slotIndex = x == 1 && y == 1 ? 0 : x + y * 3 + 1;
-                if (inputs.size() > slotIndex)
-                {
+                if (inputs.size() > slotIndex) {
 //                    guiItemStacks.init(inventoryIndex, true, 19 + x * 25, 24 + y * 25);
 //                    guiItemStacks.set(inventoryIndex, (List) inputs.get(slotIndex));
                     builder

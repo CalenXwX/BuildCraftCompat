@@ -44,7 +44,7 @@ public class BCCompat {
     public static final String GIT_COMMIT_MSG = "${git_commit_msg}";
     public static final String GIT_COMMIT_AUTHOR = "${git_commit_author}";
 
-    //    @Instance(MOD_ID)
+    // @Instance(MOD_ID)
     public static BCCompat instance;
     private static final Map<String, CompatModuleBase> modules = new HashMap<>();
 
@@ -58,9 +58,9 @@ public class BCCompat {
             String _modules = "modules";
             BooleanValue prop = BCCoreConfig.config
                     .define(_modules,
-                    "",
-                    EnumRestartRequirement.NONE,
-                    cModId, true);
+                            "",
+                            EnumRestartRequirement.NONE,
+                            cModId, true);
             BCCoreConfig.config.build();
             if (prop.get()) {
                 modules.put(cModId, module);

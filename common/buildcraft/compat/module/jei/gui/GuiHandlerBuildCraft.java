@@ -11,17 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiHandlerBuildCraft implements IGuiContainerHandler<GuiBC8<?>>
-{
+public class GuiHandlerBuildCraft implements IGuiContainerHandler<GuiBC8<?>> {
     @NotNull
     @Override
-    public List<Rect2i> getGuiExtraAreas(GuiBC8<?> guiDirty)
-    {
+    public List<Rect2i> getGuiExtraAreas(GuiBC8<?> guiDirty) {
 //        return screen.getGuiExtraAreas();
         List<Rect2i> list = new ArrayList();
 
-        for (IGuiElement element : guiDirty.mainGui.shownElements)
-        {
+        for (IGuiElement element : guiDirty.mainGui.shownElements) {
             GuiRectangle rect = element.asImmutable();
             int x = (int) rect.x;
             int y = (int) rect.y;
@@ -40,21 +37,13 @@ public class GuiHandlerBuildCraft implements IGuiContainerHandler<GuiBC8<?>>
 
 //    @Nullable
 //    @Override
-//    public Object getIngredientUnderMouse(GuiBC8<?> screen, double mouseX, double mouseY)
-//    {
+//    public Object getIngredientUnderMouse(GuiBC8<?> screen, double mouseX, double mouseY) {
 //        return screen.getIngredientUnderMouse(mouseX, mouseY);
 //    }
 
 //    @NotNull
 //    @Override
-//    public Collection<IGuiClickableArea> getGuiClickableAreas(GuiBC8<?> screen, double mouseX,
-//                                                                       double mouseY)
-//    {
-////                        if (screen instanceof InscriberScreen) {
-////                            return Collections.singletonList(
-////                                    IGuiClickableArea.createBasic(82, 39, 26, 16, InscriberRecipeCategory.RECIPE_TYPE));
-////                        }
-//
+//    public Collection<IGuiClickableArea> getGuiClickableAreas(GuiBC8<?> screen, double mouseX, double mouseY) {
 //        return Collections.emptyList();
 //    }
 }

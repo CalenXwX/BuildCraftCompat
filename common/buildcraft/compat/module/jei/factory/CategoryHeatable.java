@@ -29,8 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.List;
 
 //public class CategoryHeatable extends BlankRecipeCategory
-public class CategoryHeatable implements IRecipeCategory<IRefineryRecipeManager.IHeatableRecipe>
-{
+public class CategoryHeatable implements IRecipeCategory<IRefineryRecipeManager.IHeatableRecipe> {
     // Calen
     public static final RecipeType<IRefineryRecipeManager.IHeatableRecipe> RECIPE_TYPE =
             RecipeType.create(BCModules.FACTORY.getModId(), "category_heatable", IRefineryRecipeManager.IHeatableRecipe.class);
@@ -45,8 +44,7 @@ public class CategoryHeatable implements IRecipeCategory<IRefineryRecipeManager.
     private final IDrawableAnimated animated;
 
 
-    public CategoryHeatable(IGuiHelper guiHelper)
-    {
+    public CategoryHeatable(IGuiHelper guiHelper) {
 //        this.background = helper.createDrawable(energyHeaterBackground, 176, 19, 54, 19, 0, 0, 18, 80);
         this.background = guiHelper.drawableBuilder(energyHeaterBackground, 176, 19, 54, 19).addPadding(0, 0, 18, 80).build();
         // Calen: top+1 to be at the same height as tubes of background
@@ -64,46 +62,39 @@ public class CategoryHeatable implements IRecipeCategory<IRefineryRecipeManager.
     }
 
     @Override
-    public ResourceLocation getUid()
-    {
+    public ResourceLocation getUid() {
         return UID;
     }
 
     @Override
-    public Class<? extends IRefineryRecipeManager.IHeatableRecipe> getRecipeClass()
-    {
+    public Class<? extends IRefineryRecipeManager.IHeatableRecipe> getRecipeClass() {
         return IRefineryRecipeManager.IHeatableRecipe.class;
     }
 
     @Override
-    public Component getTitle()
-    {
+    public Component getTitle() {
 //        return new TextComponent("Heatable Fluids");
         return new TranslatableComponent("buildcraft.jei.title.heatable_fluids");
     }
 
-    public String getModName()
-    {
+    public String getModName() {
         return BCModules.FACTORY.name();
     }
 
     @Override
-    public IDrawable getBackground()
-    {
+    public IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon()
-    {
+    public IDrawable getIcon() {
         return this.icon;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
 //    public void drawExtras(Minecraft minecraft)
-    public void draw(IRefineryRecipeManager.IHeatableRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
-    {
+    public void draw(IRefineryRecipeManager.IHeatableRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         this.slotIn.draw(stack);
         this.slotOut.draw(stack);
 
@@ -112,8 +103,7 @@ public class CategoryHeatable implements IRecipeCategory<IRefineryRecipeManager.
 
     @Override
 //    public void setRecipe(IRecipeLayout recipeLayout, WrapperHeatable recipeWrapper, IIngredients ingredients)
-    public void setRecipe(IRecipeLayoutBuilder builder, IRefineryRecipeManager.IHeatableRecipe recipe, IFocusGroup focuses)
-    {
+    public void setRecipe(IRecipeLayoutBuilder builder, IRefineryRecipeManager.IHeatableRecipe recipe, IFocusGroup focuses) {
 //        IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 //        guiFluidStacks.init(0, true, 1, 1, 16, 16, 10, false, (IDrawable) null);
 //        guiFluidStacks.set(0, (List) ingredients.getInputs(FluidStack.class).get(0));
@@ -132,14 +122,12 @@ public class CategoryHeatable implements IRecipeCategory<IRefineryRecipeManager.
     }
 
     @Override
-    public List<Component> getTooltipStrings(IRefineryRecipeManager.IHeatableRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
-    {
+    public List<Component> getTooltipStrings(IRefineryRecipeManager.IHeatableRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         return Lists.newArrayList();
     }
 
     @Override
-    public boolean handleInput(IRefineryRecipeManager.IHeatableRecipe recipe, double mouseX, double mouseY, InputConstants.Key input)
-    {
+    public boolean handleInput(IRefineryRecipeManager.IHeatableRecipe recipe, double mouseX, double mouseY, InputConstants.Key input) {
         return false;
     }
 }
