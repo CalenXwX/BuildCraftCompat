@@ -13,7 +13,7 @@ public interface IGuiCreator {
     @Nullable
     @OnlyIn(Dist.CLIENT)
 //    GuiContainer getClientGuiElement(int var1, EntityPlayer var2);
-    AbstractContainerScreen getClientGuiElement(int var1, Player var2);
+    AbstractContainerScreen<?> getClientGuiElement(int var1, Player var2);
 
     @Nullable
 //    Container getServerGuiElement(int var1, EntityPlayer var2);

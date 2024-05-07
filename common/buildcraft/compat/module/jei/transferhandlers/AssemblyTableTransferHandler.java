@@ -1,6 +1,6 @@
 package buildcraft.compat.module.jei.transferhandlers;
 
-import buildcraft.api.recipes.AssemblyRecipe;
+import buildcraft.lib.recipe.assembly.AssemblyRecipe;
 import buildcraft.silicon.container.ContainerAdvancedCraftingTable;
 import buildcraft.silicon.container.ContainerAssemblyTable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;

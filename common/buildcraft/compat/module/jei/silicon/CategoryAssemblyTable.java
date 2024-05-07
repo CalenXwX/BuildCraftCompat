@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.List;
 
 import buildcraft.api.mj.MjAPI;
-import buildcraft.api.recipes.AssemblyRecipe;
+import buildcraft.api.recipes.IAssemblyRecipe;
 import buildcraft.api.recipes.IngredientStack;
 import buildcraft.silicon.BCSiliconBlocks;
 import com.google.common.collect.Lists;
@@ -33,11 +33,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class CategoryAssemblyTable implements IRecipeCategory<AssemblyRecipe>
+public class CategoryAssemblyTable implements IRecipeCategory<IAssemblyRecipe>
 {
     // Calen
-    public static final RecipeType<AssemblyRecipe> RECIPE_TYPE =
-            RecipeType.create(BCModules.SILICON.getModId(), "assembly", AssemblyRecipe.class);
+    public static final RecipeType<IAssemblyRecipe> RECIPE_TYPE =
+            RecipeType.create(BCModules.SILICON.getModId(), "assembly", IAssemblyRecipe.class);
     //    public static final ResourceLocation UID = new ResourceLocation("buildcraft-compat:silicon.assembly");
     public static final ResourceLocation UID = new ResourceLocation(BCModules.SILICON.getModId(), "assembly");
     protected final ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
@@ -47,19 +47,19 @@ public class CategoryAssemblyTable implements IRecipeCategory<AssemblyRecipe>
 
     //    private final AssemblyRecipeBasic recipe;
 //    private final IDrawableAnimated progressBar;
-    private final Map<AssemblyRecipe, IDrawableAnimated> progressBarMap = new HashMap<>();
+    private final Map<IAssemblyRecipe, IDrawableAnimated> progressBarMap = new HashMap<>();
     //    private final List<List<ItemStack>> inputs;
 //    private final List<Ingredient> inputs;
-    private final Map<AssemblyRecipe, List<Ingredient>> inputsMap = new HashMap<>();
+    private final Map<IAssemblyRecipe, List<Ingredient>> inputsMap = new HashMap<>();
     //    private final List<ItemStack> outputs;
 //    private final Ingredient outputs;
-    private final Map<AssemblyRecipe, Ingredient> outputsMap = new HashMap<>();
+    private final Map<IAssemblyRecipe, Ingredient> outputsMap = new HashMap<>();
 
     @OnlyIn(Dist.CLIENT)
     private Font font = Minecraft.getInstance().font;
 
     //    public CategoryAssemblyTable(IGuiHelper guiHelper, AssemblyRecipeBasic recipe)
-    public CategoryAssemblyTable(IGuiHelper guiHelper, Collection<AssemblyRecipe> recipes)
+    public CategoryAssemblyTable(IGuiHelper guiHelper, Collection<IAssemblyRecipe> recipes)
     {
 //        this.background = guiHelper.createDrawable(this.backgroundLocation, 5, 34, 166, 76, 10, 0, 0, 0);
         this.background = guiHelper.drawableBuilder(this.backgroundLocation, 5, 34, 166, 76).addPadding(10, 0, 0, 0).build();
@@ -70,7 +70,7 @@ public class CategoryAssemblyTable implements IRecipeCategory<AssemblyRecipe>
 //        IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 48, 4, 71, 10, 0, 0, 0);
         IDrawableStatic progressDrawable = guiHelper.drawableBuilder(backgroundLocation, 176, 48, 4, 71).addPadding(10, 0, 0, 0).build();
 
-        for (AssemblyRecipe recipe : recipes)
+        for (IAssemblyRecipe recipe : recipes)
         {
 //            this.recipe = recipe;
 //        List<List<ItemStack>> _inputs = Lists.newArrayList();
@@ -115,9 +115,9 @@ public class CategoryAssemblyTable implements IRecipeCategory<AssemblyRecipe>
     }
 
     @Override
-    public Class<? extends AssemblyRecipe> getRecipeClass()
+    public Class<IAssemblyRecipe> getRecipeClass()
     {
-        return AssemblyRecipe.class;
+        return IAssemblyRecipe.class;
     }
 
     @Override
@@ -146,7 +146,7 @@ public class CategoryAssemblyTable implements IRecipeCategory<AssemblyRecipe>
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void draw(AssemblyRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
+    public void draw(IAssemblyRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
     {
 //        this.progressBar.draw(stack, 81, 2);
         this.progressBarMap.get(recipe).draw(stack, 81, 2);
@@ -157,7 +157,7 @@ public class CategoryAssemblyTable implements IRecipeCategory<AssemblyRecipe>
 
     @Override
 //    public void setRecipe(IRecipeLayout recipeLayout, WrapperAssemblyTable recipeWrapper, IIngredients ingredients)
-    public void setRecipe(IRecipeLayoutBuilder builder, AssemblyRecipe recipe, IFocusGroup focuses)
+    public void setRecipe(IRecipeLayoutBuilder builder, IAssemblyRecipe recipe, IFocusGroup focuses)
     {
 //        IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 //        List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);

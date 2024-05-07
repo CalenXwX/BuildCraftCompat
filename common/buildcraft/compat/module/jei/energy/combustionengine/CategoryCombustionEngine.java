@@ -43,7 +43,7 @@ public class CategoryCombustionEngine implements IRecipeCategory<IFuel>
     // Calen
     public static final RecipeType<IFuel> RECIPE_TYPE =
             RecipeType.create(BCModules.ENERGY.getModId(), "engine_combustion", IFuel.class);
-    //    public static final ResourceLocation UID = new ResourceLocation("buildcraft-compat:engine.combustion");
+    // public static final ResourceLocation UID = new ResourceLocation("buildcraft-compat:engine.combustion");
     public static final ResourceLocation UID = new ResourceLocation(BCModules.ENERGY.getModId(), "engine_combustion");
     public static final ResourceLocation FURNACE = new ResourceLocation("minecraft", "textures/gui/container/furnace.png");
     private final IDrawable background;

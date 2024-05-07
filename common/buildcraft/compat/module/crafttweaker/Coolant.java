@@ -3,7 +3,7 @@ package buildcraft.compat.module.crafttweaker;
 import buildcraft.api.fuels.ICoolant;
 import buildcraft.api.fuels.IFluidCoolant;
 import buildcraft.api.fuels.ISolidCoolant;
-import buildcraft.lib.fluid.CoolantRegistry;
+import buildcraft.lib.recipe.coolant.CoolantRegistry;
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
@@ -102,7 +102,7 @@ public enum Coolant implements IRecipeManager<ICoolant>, IRecipeHandler<ICoolant
     }
 
     @Override
-    public String dumpToCommandString(IRecipeManager manager, ICoolant recipe)
+    public String dumpToCommandString(final IRecipeManager manager, ICoolant recipe)
     {
         if (recipe instanceof IFluidCoolant fluidCoolant)
         {
@@ -120,7 +120,7 @@ public enum Coolant implements IRecipeManager<ICoolant>, IRecipeHandler<ICoolant
                     StringUtil.quoteAndEscape(recipe.getId()),
                     ItemStackUtil.getCommandString(solidCoolant.getSolid()),
                     StringUtil.quoteAndEscape(recipe.getFluid().getFluid().getRegistryName()),
-                    solidCoolant.getMultiplierForSerialize()
+                    solidCoolant.getMultiplier()
             );
         }
         return "This is not a fluid coolant or a solid coolant. What happened?";
