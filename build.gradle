@@ -139,6 +139,7 @@ sourceSets {
         }
         resources {
             srcDir "resources"
+            srcDir "mod_info"
             srcDir "BuildCraft/buildcraft_resources"
             srcDir 'BuildCraft/buildcraft_resources_generated'
             srcDir "BuildCraft/BuildCraft-Localization"
