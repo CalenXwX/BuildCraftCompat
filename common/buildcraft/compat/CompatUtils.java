@@ -1,6 +1,7 @@
 package buildcraft.compat;
 
 import buildcraft.compat.network.IGuiCreator;
+import buildcraft.lib.misc.StackUtil;
 import buildcraft.lib.tile.item.ItemHandlerSimple;
 import com.google.common.collect.Lists;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = BCCompat.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = BCCompat.MODID)
 public class CompatUtils {
     public static final Capability<IGuiCreator> CAP_GUI_CREATOR = CapabilityManager.get(new CapabilityToken<>() {
     });
@@ -31,7 +32,8 @@ public class CompatUtils {
 
             boolean handled = false;
             for (ItemStack existing : stacks) {
-                if (existing.sameItem(stack)) {
+//                if (existing.isItemEqual(stack))
+                if (StackUtil.isSameItemSameDamage(existing, stack)) {
                     existing.grow(stack.getCount());
                     handled = true;
                     break;

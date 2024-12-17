@@ -12,7 +12,6 @@ import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
 import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByName;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.ingredient.IIngredient;
-import com.blamejared.crafttweaker.api.ingredient.type.IIngredientList;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.recipe.handler.IRecipeHandler;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
@@ -75,6 +74,7 @@ public enum AssemblyTable implements IRecipeManager<IAssemblyRecipe>, IRecipeHan
 
     // @ZenMethod
     @ZenCodeType.Method
+    @Override
     // public static void removeByName(String name)
     public void removeByName(String name) {
 //        CraftTweakerAPI.apply(new RemoveRecipeByNameAction(new ResourceLocation(name)));

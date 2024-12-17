@@ -69,6 +69,7 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
         this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, 720, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
+    @Override
     public ResourceLocation getUid() {
         return UID;
     }
@@ -105,6 +106,7 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
 
     }
 
+    @Override
     // public void setRecipe(IRecipeLayout recipeLayout, WrapperIntegrationTable recipeWrapper, IIngredients ingredients)
     public void setRecipe(IRecipeLayoutBuilder builder, IntegrationRecipe recipe, IFocusGroup focuses) {
 //        IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();

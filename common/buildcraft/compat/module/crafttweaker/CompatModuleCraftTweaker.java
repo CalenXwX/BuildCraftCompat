@@ -3,7 +3,6 @@ package buildcraft.compat.module.crafttweaker;
 import buildcraft.compat.CompatModuleBase;
 
 public class CompatModuleCraftTweaker extends CompatModuleBase {
-    // TODO Calen /ct recipes manager <recipetype:buildcraftsilicon:assembly> -> error
     public CompatModuleCraftTweaker() {
     }
 

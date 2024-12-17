@@ -15,8 +15,7 @@ public class GuiHandlerBuildCraft implements IGuiContainerHandler<GuiBC8<?>> {
     @NotNull
     @Override
     public List<Rect2i> getGuiExtraAreas(GuiBC8<?> guiDirty) {
-//        return screen.getGuiExtraAreas();
-        List<Rect2i> list = new ArrayList();
+        List<Rect2i> list = new ArrayList<>();
 
         for (IGuiElement element : guiDirty.mainGui.shownElements) {
             GuiRectangle rect = element.asImmutable();
