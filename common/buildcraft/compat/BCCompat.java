@@ -1,13 +1,11 @@
 package buildcraft.compat;
 
-import buildcraft.api.BCModules;
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.module.crafttweaker.CompatModuleCraftTweaker;
 import buildcraft.compat.module.ic2.CompatModuleIndustrialCraft2;
 import buildcraft.compat.module.theoneprobe.CompatModuleTheOneProbe;
 import buildcraft.core.BCCore;
 import buildcraft.lib.config.ConfigCategory;
-import buildcraft.lib.config.Configuration;
 import buildcraft.lib.config.EnumRestartRequirement;
 import buildcraft.lib.registry.RegistryConfig;
 import buildcraft.lib.registry.TagManager;
@@ -54,8 +52,6 @@ public class BCCompat {
     private static final Map<String, CompatModuleBase> modules = new HashMap<>();
     private static final Map<String, ConfigCategory<Boolean>> moduleConfigs = new HashMap<>();
 
-    public static Configuration config;
-
     public BCCompat() {
         instance = this;
     }
@@ -64,7 +60,7 @@ public class BCCompat {
         String cModId = module.compatModId();
         if (module.canLoad()) {
             String _modules = "modules";
-            ConfigCategory<Boolean> prop = config
+            ConfigCategory<Boolean> prop = BCCompatConfig.config
                     .define(_modules,
                             "",
                             EnumRestartRequirement.NONE,
@@ -86,10 +82,7 @@ public class BCCompat {
     public static void preInit(FMLConstructModEvent evt) {
         // Calen
         RegistryConfig.useOtherModConfigFor(MODID, BCCore.MODID);
-
-        // Start config
-        BCModules module = BCModules.COMPAT;
-        config = new Configuration(module);
+        BCCompatConfig.preInit();
 
         // init
         BCLog.logger.info("");
@@ -148,6 +141,8 @@ public class BCCompat {
         for (CompatModuleBase m : modules.values()) {
             m.postInit();
         }
+
+        BCCompatConfig.saveConfigs();
     }
 
     private static final TagManager tagManager = new TagManager();

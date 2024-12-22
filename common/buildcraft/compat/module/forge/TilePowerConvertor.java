@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-// Calen
+// Calen 1.20.1
 public class TilePowerConvertor extends TileBC_Neptune implements IEnergyStorage, IMjConnector, IMjReceiver, IMjRedstoneReceiver, IMjReadable, IMjPassiveProvider {
     public TilePowerConvertor(BlockPos pos, BlockState blockState) {
         super(BCCompatBlocks.powerConvertorTile.get(), pos, blockState);
@@ -247,7 +247,7 @@ public class TilePowerConvertor extends TileBC_Neptune implements IEnergyStorage
      * {@link TilePowerConvertor} and any TileEntity both has {@link ForgeCapabilities#ENERGY} and {@link MjAPI#CAP_CONNECTOR} will be excluded.
      */
     private <T> List<Pair<Direction, T>> getAllHasCapAround(Capability<T> capability) {
-        return Arrays.stream(Direction.values())
+        return Arrays.stream(Direction.VALUES)
                 .map(d -> new Pair<>(d, this.worldPosition.relative(d)))
                 .filter(p -> this.level.getBlockState(p.getSecond()).getBlock() != BCCompatBlocks.powerConvertor.get())
                 .map(p -> new Pair<>(p.getFirst(), this.level.getBlockEntity(p.getSecond())))
@@ -267,7 +267,7 @@ public class TilePowerConvertor extends TileBC_Neptune implements IEnergyStorage
     }
 
     public static int convert_mMJ_2_FE(long mMJ) {
-        return (int) Math.min(Integer.MAX_VALUE, mMJ / MjAPI.MJ * 16L);
+        return (int) Math.min(Integer.MAX_VALUE, mMJ * 16L / MjAPI.MJ);
     }
 
     public static long convert_FE_2_mMJ(int fe) {

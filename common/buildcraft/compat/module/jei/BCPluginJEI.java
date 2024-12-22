@@ -5,10 +5,12 @@ import buildcraft.api.core.BCLog;
 import buildcraft.api.enums.EnumEngineType;
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.compat.BCCompatConfig;
 import buildcraft.compat.module.jei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.jei.factory.CategoryCoolable;
 import buildcraft.compat.module.jei.factory.CategoryDistiller;
 import buildcraft.compat.module.jei.factory.CategoryHeatable;
+import buildcraft.compat.module.jei.gui.GuiGhostIngredientHandlerBuildCraft;
 import buildcraft.compat.module.jei.gui.GuiHandlerBuildCraft;
 import buildcraft.compat.module.jei.silicon.CategoryAssemblyTable;
 import buildcraft.compat.module.jei.transferhandlers.AdvancedCraftingItemsTransferHandler;
@@ -69,7 +71,7 @@ public class BCPluginJEI implements IModPlugin {
     public void registerGuiHandlers(IGuiHandlerRegistration registry) {
         BCPluginJEI.registryGui = registry;
         registry.addGenericGuiContainerHandler(GuiBC8.class, new GuiHandlerBuildCraft());
-
+        registry.addGhostIngredientHandler(GuiBC8.class, new GuiGhostIngredientHandlerBuildCraft());
     }
 
     // Calen: IRecipeWrapper combined into IRecipeCategory
@@ -221,14 +223,22 @@ public class BCPluginJEI implements IModPlugin {
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
         BCPluginJEI.jeiRuntime = jeiRuntime;
 
-        // TODO if disable colored pipes
-        Arrays.stream(DyeColor.values()).forEach(
-                color -> PipeRegistry.INSTANCE.getAllRegisteredPipes().forEach(
-                        def -> jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(
-                                VanillaTypes.ITEM_STACK,
-                                List.of(new ItemStack((Item) PipeRegistry.INSTANCE.getItemForPipe(def, color)))
-                        )
-                )
-        );
+        if (!BCCompatConfig.coloredPipesVisible) {
+            Arrays.stream(DyeColor.values()).forEach(
+                    color -> PipeRegistry.INSTANCE.getAllRegisteredPipes().forEach(
+                            def -> jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(
+                                    VanillaTypes.ITEM_STACK,
+                                    List.of(new ItemStack((Item) PipeRegistry.INSTANCE.getItemForPipe(def, color)))
+                            )
+                    )
+            );
+        }
+        if (!BCCompatConfig.facadesVisible) {
+            jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(
+                    VanillaTypes.ITEM_STACK,
+                    jeiRuntime.getIngredientManager().getAllIngredients(VanillaTypes.ITEM_STACK).stream()
+                            .filter(stack -> stack.getItem() == BCSiliconItems.plugFacade.get()).toList()
+            );
+        }
     }
 }
