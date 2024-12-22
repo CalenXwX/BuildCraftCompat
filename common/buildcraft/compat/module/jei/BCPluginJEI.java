@@ -45,6 +45,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -222,13 +223,12 @@ public class BCPluginJEI implements IModPlugin {
         BCPluginJEI.jeiRuntime = jeiRuntime;
 
         // TODO if disable colored pipes
+        List<ItemStack> itemsToRemove = new ArrayList<>();
         Arrays.stream(DyeColor.values()).forEach(
                 color -> PipeRegistry.INSTANCE.getAllRegisteredPipes().forEach(
-                        def -> jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(
-                                VanillaTypes.ITEM_STACK,
-                                List.of(new ItemStack((Item) PipeRegistry.INSTANCE.getItemForPipe(def, color)))
-                        )
+                        def -> itemsToRemove.add(new ItemStack((Item) PipeRegistry.INSTANCE.getItemForPipe(def, color)))
                 )
         );
+        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, itemsToRemove);
     }
 }
