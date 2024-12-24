@@ -5,9 +5,11 @@ import buildcraft.api.core.BCLog;
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.recipes.IAssemblyRecipe;
 import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.compat.BCCompatConfig;
 import buildcraft.compat.module.rei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.rei.energy.combustionengine.DisplayCombustionEngine;
 import buildcraft.compat.module.rei.factory.*;
+import buildcraft.compat.module.rei.gui.GuiGhostIngredientHandlerBuildCraft;
 import buildcraft.compat.module.rei.gui.GuiHandlerBuildCraft;
 import buildcraft.compat.module.rei.silicon.CategoryAssemblyTable;
 import buildcraft.compat.module.rei.silicon.DisplayAssembly;
@@ -23,6 +25,7 @@ import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.entry.EntryRegistry;
 import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;
+import me.shedaniel.rei.api.client.registry.screen.ScreenRegistry;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
@@ -95,16 +98,23 @@ public class BCPluginREI implements REIClientPlugin {
                 if (item == BCCoreItems.fragileFluidShard.get()) {
                     return true;
                 } else if (item instanceof ItemPipeHolder pipe) {
-                    // TODO if disable colored piped
-                    if (pipe.getColour() != DyeColor.WHITE) {
-                        return true;
+                    if (!BCCompatConfig.coloredPipesVisible) {
+                        if (pipe.getColour() != DyeColor.WHITE) {
+                            return true;
+                        }
                     }
                 } else if (item == BCSiliconItems.plugFacade.get()) {
-                    // TODO if disable rei facades
-                    return true;
+                    if (!BCCompatConfig.facadesVisible) {
+                        return true;
+                    }
                 }
             }
             return false;
         });
+    }
+
+    @Override
+    public void registerScreens(ScreenRegistry registry) {
+        registry.registerDraggableStackVisitor(new GuiGhostIngredientHandlerBuildCraft());
     }
 }
