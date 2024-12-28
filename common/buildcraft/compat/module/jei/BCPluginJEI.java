@@ -5,6 +5,7 @@ import buildcraft.api.core.BCLog;
 import buildcraft.api.enums.EnumEngineType;
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.compat.BCCompatConfig;
 import buildcraft.compat.module.jei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.jei.factory.CategoryCoolable;
 import buildcraft.compat.module.jei.factory.CategoryDistiller;
@@ -20,21 +21,27 @@ import buildcraft.lib.recipe.assembly.AssemblyRecipe;
 import buildcraft.lib.recipe.assembly.AssemblyRecipeRegistry;
 import buildcraft.lib.recipe.fuel.FuelRegistry;
 import buildcraft.silicon.BCSiliconBlocks;
+import buildcraft.silicon.BCSiliconItems;
 import buildcraft.silicon.container.ContainerAssemblyTable;
+import buildcraft.transport.pipe.PipeRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -197,5 +204,23 @@ public class BCPluginJEI implements IModPlugin {
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
         BCPluginJEI.jeiRuntime = jeiRuntime;
+
+        if (!BCCompatConfig.coloredPipesVisible) {
+            List<ItemStack> itemsToRemove = new ArrayList<>();
+            Arrays.stream(DyeColor.values()).forEach(
+                    color -> PipeRegistry.INSTANCE.getAllRegisteredPipes().forEach(
+                            def -> itemsToRemove.add(new ItemStack((Item) PipeRegistry.INSTANCE.getItemForPipe(def, color)))
+                    )
+            );
+            jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, itemsToRemove);
+        }
+
+        if (!BCCompatConfig.facadesVisible) {
+            jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(
+                    VanillaTypes.ITEM_STACK,
+                    jeiRuntime.getIngredientManager().getAllIngredients(VanillaTypes.ITEM_STACK).stream()
+                            .filter(stack -> stack.getItem() == BCSiliconItems.plugFacade.get()).toList()
+            );
+        }
     }
 }

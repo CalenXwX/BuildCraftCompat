@@ -4,9 +4,7 @@ import buildcraft.compat.BCCompat;
 import buildcraft.compat.BCCompatBlocks;
 import buildcraft.datagen.base.BCBaseBlockStateGenerator;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class CompatBlockStateGenerator extends BCBaseBlockStateGenerator {
