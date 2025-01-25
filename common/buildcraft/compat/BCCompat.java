@@ -109,6 +109,9 @@ public class BCCompat {
 
         // Calen
         BCCompatBlocks.fmlPreInit();
+
+        // Calen 1.20.1
+        BCCompatProxy.getProxy().fmlPreInit();
     }
 
     /** This is called after config loaded. */
@@ -150,9 +153,9 @@ public class BCCompat {
     static {
         startBatch();
 
-        registerTag("item.block.power_convertor").reg("power_convertor").locale("power_convertor");
-        registerTag("block.power_convertor").reg("power_convertor").locale("power_convertor");
-        registerTag("tile.power_convertor").reg("power_convertor");
+        registerTag("item.block.engine.bc.fe").reg("engine_fe").locale("engineFe");
+        registerTag("block.engine.bc.fe").reg("engine_fe").locale("engineFe");
+        registerTag("tile.engine.fe").reg("engine_fe");
 
         endBatch(TagManager.prependTags("buildcraftcompat:", TagManager.EnumTagType.REGISTRY_NAME)
                 .andThen(TagManager.setTab("buildcraft.main"))
